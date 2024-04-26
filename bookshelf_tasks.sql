@@ -9,16 +9,13 @@ LIMIT 1;
 SELECT *
 FROM books
 WHERE year IS NOT NULL
-ORDER BY year
+ORDER BY year ASC
 LIMIT 5;
 -- 3
 SELECT COUNT(*)
 FROM books
-WHERE shelves_id = (
-    SELECT id
-    FROM shelves
-    WHERE title = 'полка в кабинете'
-);
+JOIN shelves ON books.shelves_id = shelves.id
+WHERE shelves.title = 'полка в кабинете';
 -- 4
 SELECT b.title, a.name, b.year
 FROM books b
@@ -50,7 +47,7 @@ UPDATE books
 SET friends_id = (
     SELECT id
     FROM friends
-    WHERE name = 'Иван Иванов'
+    WHERE name = 'Иванов Иван'
 )
 WHERE title = 'Божественная комедия' AND books.id = (
     SELECT books_id
