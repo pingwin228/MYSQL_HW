@@ -31,15 +31,16 @@ GROUP BY directors.id, directors.full_name
 ORDER BY movie_count DESC
 LIMIT 1;
 -- 7.
-SELECT movies.title, movies.genre_id
+SELECT movies.title, genres.title AS genre
 FROM movies
-JOIN (
+JOIN genres ON movies.genre_id = genres.id
+WHERE movies.company_id = (
     SELECT company_id
     FROM movies
     GROUP BY company_id
     ORDER BY SUM(budget) DESC
     LIMIT 1
-) AS top_company ON movies.company_id = top_company.company_id;
+);
 -- 8.
 SELECT AVG(movies.budget) AS AverageBudget
 FROM movies
