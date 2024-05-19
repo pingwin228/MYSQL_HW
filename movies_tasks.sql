@@ -44,11 +44,8 @@ WHERE movies.company_id = (
 -- 8.
 SELECT AVG(budget) AS AverageBudget
 FROM movies
-WHERE company_id = (
-    SELECT id
-    FROM companies
-    WHERE title = 'Warner Bros'
-);
+JOIN companies ON movies.company_id = companies.id
+WHERE companies.title = 'Warner Bros';
 -- 9.
 SELECT genres.id AS genre_id, genres.title AS genre_id, COUNT(movies.id) AS NumberOfMovies, AVG(movies.budget) AS AverageBudget
 FROM movies
