@@ -54,4 +54,4 @@ GROUP BY genres.id, genres.title;
 DELETE movies
 FROM movies
 JOIN genres ON movies.genre_id = genres.id
-WHERE movies.title = 'Дикие истории' AND genres.id = 7 AND movies.year = 2014;
+WHERE movies.title = 'Дикие истории' AND genres.title = 'комедия'
