@@ -1,5 +1,5 @@
 -- 1.
-SELECT COUNT(*) AS movies
+SELECT COUNT(movies.id) AS movies
 FROM movies
 JOIN companies ON movies.company_id = companies.id
 WHERE companies.title = 'Universal Pictures';
@@ -39,9 +39,9 @@ JOIN (
     GROUP BY company_id
     ORDER BY SUM(budget) DESC
     LIMIT 1
-) temp ON movies.company_id = temp.company_id;
+) AS top_company ON movies.company_id = top_company.company_id;
 -- 8.
-SELECT AVG(budget) as AverageBudget
+SELECT AVG(movies.budget) AS AverageBudget
 FROM movies
 JOIN companies ON movies.company_id = companies.id
 WHERE companies.title = 'Warner Bros';
