@@ -1,12 +1,14 @@
 -- 1.
-select count(*) as movies 
-from movies 
-where company_id = 1; 
+SELECT COUNT(*) AS movies
+FROM movies
+JOIN companies ON movies.company_id = companies.id
+WHERE companies.title = 'Universal Pictures';
 -- 2.
-select count(*) as movies 
-from movies 
-where director_id = 2; 
--- 3. И здесь указан, а во втором пункте пропущен
+SELECT COUNT(*) AS movies
+FROM movies
+JOIN directors ON movies.director_id = directors.id
+WHERE directors.full_name = 'Фрэнсис Форд Коппола';
+-- 3.
 SELECT COUNT(*) AS movies
 FROM movies
 WHERE year >= YEAR(CURDATE()) - 20;
@@ -29,35 +31,27 @@ GROUP BY directors.id, directors.full_name
 ORDER BY movie_count DESC
 LIMIT 1;
 -- 7.
-SELECT title, genre_id
+SELECT movies.title, movies.genre_id
 FROM movies
-WHERE company_id = (
+JOIN (
     SELECT company_id
     FROM movies
     GROUP BY company_id
     ORDER BY SUM(budget) DESC
     LIMIT 1
-);
+) temp ON movies.company_id = temp.company_id;
 -- 8.
 SELECT AVG(budget) as AverageBudget
 FROM movies
 JOIN companies ON movies.company_id = companies.id
 WHERE companies.title = 'Warner Bros';
 -- 9.
-SELECT genre_id, COUNT(*) AS NumberOfMovies, AVG(budget) AS AverageBudget
+SELECT genres.id AS genre_id, genres.title AS genre_id, COUNT(movies.id) AS NumberOfMovies, AVG(movies.budget) AS AverageBudget
 FROM movies
-GROUP BY genre_id;
+JOIN genres ON movies.genre_id = genres.id
+GROUP BY genres.id, genres.title;
 -- 10.
-DELETE FROM movies 
-WHERE title = 'Дикие истории' AND genre_id = '7' AND year = 2014;
-
-
-
-
-
-
-
-
-
-
-
+DELETE movies
+FROM movies
+JOIN genres ON movies.genre_id = genres.id
+WHERE movies.title = 'Дикие истории' AND genres.id = 7 AND movies.year = 2014;
